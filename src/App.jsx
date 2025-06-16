@@ -41,14 +41,9 @@ const AuthProvider = ({ children }) => {
     // Check active session
     const getSession = async () => {
       const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error) {
-        console.error('Error getting session:', error);
-      }
-      
+      console.log('AuthProvider getSession:', { session, error });
       setSession(session);
       setUser(session?.user || null);
-      
       if (session?.user) {
         // Get user role from coaches table
         const { data: coachData } = await supabase
@@ -56,20 +51,19 @@ const AuthProvider = ({ children }) => {
           .select('is_admin')
           .eq('email', session.user.email)
           .single();
-        
         setUserRole(coachData?.is_admin ? 'admin' : 'coach');
+        console.log('AuthProvider coachData:', coachData);
       }
-      
       setLoading(false);
+      console.log('AuthProvider loading (after getSession):', false);
     };
-    
     getSession();
-    
+
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      console.log('AuthProvider onAuthStateChange:', { session });
       setSession(session);
       setUser(session?.user || null);
-      
       if (session?.user) {
         // Get user role from coaches table
         const { data: coachData } = await supabase
@@ -77,19 +71,23 @@ const AuthProvider = ({ children }) => {
           .select('is_admin')
           .eq('email', session.user.email)
           .single();
-        
         setUserRole(coachData?.is_admin ? 'admin' : 'coach');
+        console.log('AuthProvider coachData (onAuthStateChange):', coachData);
       } else {
         setUserRole(null);
       }
-      
       setLoading(false);
+      console.log('AuthProvider loading (after onAuthStateChange):', false);
     });
-    
+
     return () => {
       subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    console.log('AuthProvider state:', { user, session, loading, userRole });
+  }, [user, session, loading, userRole]);
 
   const value = {
     user,
