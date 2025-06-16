@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Color palette */
+  --color-old-gold: #CFB53B;
+  --color-old-gold-light: #DFC76B;
+  --color-old-gold-dark: #BFA52B;
+  --color-black: #000000;
+  --color-dark-gray: #121212;
+  --color-white: #FFFFFF;
+  --color-gray-100: rgba(255, 255, 255, 0.1);
+  --color-gray-200: rgba(255, 255, 255, 0.2);
+  --color-gray-300: rgba(255, 255, 255, 0.3);
+  --color-gray-500: rgba(255, 255, 255, 0.5);
+  --color-gray-700: rgba(255, 255, 255, 0.7);
+  
+  /* Font settings */
+  --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Border radius */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-full: 9999px;
+}
+
+/* Base styles */
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Voice dictation styles */
+.voice-recording-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  background-color: rgba(207, 181, 59, 0.1);
+  border-radius: var(--border-radius-full);
+  color: var(--color-old-gold);
+  font-size: 0.75rem;
+  font-weight: 500;
+  gap: 4px;
+}
+
+.voice-recording-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-old-gold);
+  animation: pulse 1.5s infinite;
+}
+
+.voice-tooltip {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--color-white);
+  padding: 4px 8px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.voice-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Custom animations */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(207, 181, 59, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(207, 181, 59, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(207, 181, 59, 0);
+  }
+}
+
+/* Utility classes */
+.text-oldgold {
+  color: var(--color-old-gold);
+}
+
+.bg-oldgold {
+  background-color: var(--color-old-gold);
+}
+
+.border-oldgold {
+  border-color: var(--color-old-gold);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-dark-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-old-gold);
+  border-radius: var(--border-radius-full);
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--color-dark-gray);
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-old-gold);
+  outline-offset: 2px;
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  :root {
+    --spacing-lg: 1rem;
+    --spacing-xl: 1.5rem;
+  }
+}
