@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
-import { Box, Paper, Typography, TextField, Button } from '@mui/material';
+import { Box, Paper, Typography, TextField, Button, Alert } from '@mui/material';
 import { useAuth } from '../../App';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMsg('');
+    console.log('Attempting login with:', { email, password });
     try {
       const { error } = await signIn(email, password);
       if (!error) {
         navigate('/dashboard');
+      } else {
+        setErrorMsg(error.message || 'Login failed.');
       }
     } catch (error) {
+      setErrorMsg(error.message || 'Login error.');
       console.error('Login error:', error);
     }
   };
@@ -44,6 +50,7 @@ const Login = () => {
         <Typography variant="h4" component="h1" gutterBottom align="center">
           Login
         </Typography>
+        {errorMsg && <Alert severity="error" sx={{ mb: 2 }}>{errorMsg}</Alert>}
         <form onSubmit={handleSubmit}>
           <TextField
             fullWidth
