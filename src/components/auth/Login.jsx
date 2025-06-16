@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { Box, Paper, Typography, TextField, Button } from '@mui/material';
 import { useAuth } from '../../App';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signIn(email, password);
+      const { error } = await signIn(email, password);
+      if (!error) {
+        navigate('/dashboard');
+      }
     } catch (error) {
       console.error('Login error:', error);
     }
