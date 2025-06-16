@@ -32,6 +32,7 @@ export const useAuth = () => useContext(AuthContext);
 
 // Auth provider component
 const AuthProvider = ({ children }) => {
+  console.log('AuthProvider mounted');
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -169,6 +170,7 @@ const ProtectedRoute = ({ children, requiredRole }) => {
 };
 
 function App() {
+  console.log('App.jsx loaded');
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
