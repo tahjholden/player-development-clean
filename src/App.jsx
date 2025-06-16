@@ -36,6 +36,7 @@ const AuthProvider = ({ children }) => {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check active session
@@ -88,6 +89,13 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     console.log('AuthProvider state:', { user, session, loading, userRole });
   }, [user, session, loading, userRole]);
+
+  // Fallback: if loading is false and user is null, redirect to login
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/login');
+    }
+  }, [loading, user, navigate]);
 
   const value = {
     user,
